@@ -3,6 +3,4 @@ class Player {
     hp:Number;
     score:Number;
     position:Array<number>;
-
-    
 }
