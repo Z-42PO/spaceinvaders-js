@@ -5,6 +5,8 @@ const browserSync = require('browser-sync').create();
 const del = require('del');
 const wiredep = require('wiredep').stream;
 const runSequence = require('run-sequence');
+const ts = require('gulp-typescript');
+const tsProject = ts.createProject('tsconfig.json');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -36,6 +38,12 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
+gulp.task('typescript', function () {
+  return tsProject.src()
+      .pipe(tsProject())
+      .js.pipe(gulp.dest('.tmp/scripts'));
+});
+
 function lint(files) {
   return gulp.src(files)
     .pipe($.eslint({ fix: true }))
@@ -53,7 +61,7 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec'));
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', ['styles', 'typescript'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
@@ -95,7 +103,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts'], () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'typescript', 'fonts'], () => {
     browserSync.init({
       notify: false,
       port: 9000,

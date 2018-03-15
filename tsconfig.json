@@ -1,0 +1,10 @@
+{
+    "files": [
+        "app/scripts/**"
+    ],
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "target": "es6",
+        "outFile": "main.js"
+    }
+}
