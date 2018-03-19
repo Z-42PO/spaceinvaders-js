@@ -1,10 +1,11 @@
 {
     "files": [
-        "app/scripts/**"
+        "app/scripts/level.ts"
     ],
     "compilerOptions": {
         "noImplicitAny": true,
         "target": "es6",
+        "module": "amd",
         "outFile": "main.js"
     }
 }

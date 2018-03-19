@@ -1,25 +1,30 @@
+import { Player } from './player';
+
 class Level {
-    width: Number;
-    height: Number;
-    stage: Number;
-    tempo: Number;
+    width: number;
+    height: number;
+    stage: number;
+    tempo: number;
     player: Player;
-    alien: Array<Alien>;
+    // alien: Array<Alien>;
     node: HTMLElement;
 
-    constructor(stage:Number, tempo:Number) {
+    constructor(stage:number, tempo:number) {
         this.width = 800;
         this.height = 600;
         this.stage = 1;
         this.tempo = 1;
-        this.addDiv();
+        this.create();
     }
 
-    addDiv() {
+    create() {
         this.node = document.createElement('div');
-        this.node.className = 'level-' + this.stage;
+        this.node.className = 'level level-' + this.stage;
         this.node.style.width = this.width + 'px';
         this.node.style.height = this.height + 'px';
+
+        this.player = new Player();
+        this.player.create('level');
         document.body.appendChild(this.node);
     }
 }
