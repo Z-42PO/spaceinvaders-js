@@ -5,7 +5,7 @@ export class Player {
     position:Array<number>;
     node: HTMLElement;
 
-    create(position: string) {
+    create(position:string) {
         this.node = document.createElement('div');
         this.node.id = 'player';
         document.getElementById(position).appendChild(this.node);
