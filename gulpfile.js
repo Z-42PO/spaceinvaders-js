@@ -39,6 +39,12 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
+gulp.task('requirejs', () => {
+  return gulp.src('node_modules/requirejs/require.js')
+    .pipe($.plumber())
+    .pipe(gulp.dest('.tmp/scripts'));
+});
+
 gulp.task('typescript', function () {
   return tsProject.src()
       .pipe(tsProject())
@@ -104,7 +110,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['styles', 'typescript', 'fonts'], () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'requirejs', 'typescript', 'fonts'], () => {
     browserSync.init({
       notify: false,
       port: 9000,

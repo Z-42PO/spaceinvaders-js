@@ -1,4 +1,4 @@
-import { Player } from './player';
+// import { Player } from './player';
 
 class Level {
     width: number;
@@ -20,6 +20,7 @@ class Level {
     create() {
         this.node = document.createElement('div');
         this.node.className = 'level level-' + this.stage;
+        this.node.id = 'level';
         this.node.style.width = this.width + 'px';
         this.node.style.height = this.height + 'px';
 
@@ -30,6 +31,22 @@ class Level {
 }
 
 
+
+
+
+class Player {
+    pseudo:string = "player1";
+    hp:number;
+    score:number;
+    position:Array<number>;
+    node: HTMLElement;
+
+    create(position:string) {
+        this.node = document.createElement('div');
+        this.node.id = 'player';
+        document.getElementById(position).appendChild(this.node);
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', function() { // on document ready
