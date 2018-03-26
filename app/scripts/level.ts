@@ -18,14 +18,14 @@ class Level {
     }
 
     create() {
+        // add Level in DOM
         this.node = document.createElement('div');
         this.node.className = 'level level-' + this.stage;
-        this.node.id = 'level';
         this.node.style.width = this.width + 'px';
         this.node.style.height = this.height + 'px';
-
+        // add Player inside Level
         this.player = new Player();
-        this.player.create('level');
+        this.player.create(this.node);
         document.body.appendChild(this.node);
     }
 }
@@ -41,10 +41,10 @@ class Player {
     position:Array<number>;
     node: HTMLElement;
 
-    create(position:string) {
+    create(position:HTMLElement) {
         this.node = document.createElement('div');
         this.node.id = 'player';
-        document.getElementById(position).appendChild(this.node);
+        position.appendChild(this.node);
     }
 }
 
