@@ -1,11 +1,26 @@
 {
-    "files": [
-        "app/scripts/level.ts"
-    ],
+    // "files": [
+    //     "app/scripts/level.ts"
+    // ],
     "compilerOptions": {
         "noImplicitAny": true,
-        "target": "es6",
-        "module": "amd",
-        "outFile": "main.js"
-    }
+        // "target": "es6",
+        // "module": "amd",
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "classic",
+        // "outFile": "main.js",
+        "outDir": "scripts",
+        // "strict": true,
+        // "sourceMap": true
+        // "paths": {
+        //     "*": [
+        //         "node_modules/*",
+        //         "scripts/*"
+        //     ]
+        // }
+    },
+    "include": [
+        "app/scripts/**/*"
+    ]
 }
