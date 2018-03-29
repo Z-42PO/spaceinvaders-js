@@ -1,12 +1,8 @@
-import { Player } from './player';
-
-class Level {
+export class Level {
     width: number;
     height: number;
     stage: number;
     tempo: number;
-    player: Player;
-    // alien: Array<Alien>;
     node: HTMLElement;
 
     constructor(stage:number, tempo:number) {
@@ -17,21 +13,26 @@ class Level {
         this.create();
     }
 
+    /**
+     * add Level in DOM
+     */
     create() {
-        // add Level in DOM
         this.node = document.createElement('div');
         this.node.className = 'level level-' + this.stage;
         this.node.style.width = this.width + 'px';
         this.node.style.height = this.height + 'px';
-        // add Player inside Level
-        this.player = new Player();
-        this.player.create(this.node);
         document.body.appendChild(this.node);
     }
+
+    /**
+     * add element in Level
+     * @param node
+     * @param x
+     * @param y
+     */
+    addElement(node:HTMLElement, x:number, y:number = 0) {
+        this.node.appendChild(node);
+        node.style.bottom = y + 'px';
+        node.style.left = x + 'px';
+    }
 }
-
-
-
-document.addEventListener('DOMContentLoaded', function() { // on document ready
-    new Level(1, 1);
-})

@@ -27,7 +27,6 @@
     "wiredep": "^4.0.0",
     "typescript": "^2.7.2",
     "gulp-typescript": "^4.0.1",
-    "requirejs": "^2.3.5"
   },
   "eslintConfig": {
     "env": {

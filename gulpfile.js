@@ -1,5 +1,4 @@
 // generated on 2018-03-12 using generator-webapp 3.0.1
-const requirejs = require('requirejs');
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync').create();
@@ -37,12 +36,6 @@ gulp.task('scripts', () => {
     .pipe($.if(dev, $.sourcemaps.write('.')))
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe(reload({stream: true}));
-});
-
-gulp.task('requirejs', () => {
-  return gulp.src('node_modules/requirejs/require.js')
-    .pipe($.plumber())
-    .pipe(gulp.dest('.tmp/scripts'));
 });
 
 gulp.task('typescript', function () {
@@ -110,7 +103,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['styles', 'requirejs', 'typescript', 'fonts'], () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'typescript', 'fonts'], () => {
     browserSync.init({
       notify: false,
       port: 9000,
