@@ -10,6 +10,36 @@ class GameController {
 
         // add Player inside Level
         level.addElement(player.node, player.coordonate);
+        this.setKeydowEvent(player);
+    }
+
+    /**
+     * Use KeydownEvent constructor to listen keydown event
+     * @param player
+     */
+    setKeydowEvent(player:Player) {
+        window.addEventListener("keydown", (event) => {
+            if (event.defaultPrevented) {
+              return; // Should do nothing if the key event was already consumed.
+            }
+
+            switch (event.key) {
+              case "ArrowLeft":
+                player.move('left')
+                break;
+              case "ArrowRight":
+                player.move('right')
+                break;
+              case "Space":
+                // Do something for "enter" or "return" key press.
+                break;
+              default:
+                return; // Quit when this doesn't handle the key event.
+            }
+
+            // Consume the event for suppressing "double action".
+            event.preventDefault();
+        }, true);
     }
 }
 

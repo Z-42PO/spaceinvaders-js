@@ -10,4 +10,13 @@ export class Player {
         this.node.id = 'player';
         this.node.className = 'player';
     }
+
+    /**
+     * Move element in the direction left or right
+     * @param direction left | right
+     */
+    move(direction:string) {
+        this.coordonate += direction == 'left' ? -5 : 5;
+        this.node.style.left = this.coordonate + 'px';
+    }
 }

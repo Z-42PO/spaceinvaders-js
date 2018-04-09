@@ -26,7 +26,7 @@
     "run-sequence": "^1.2.2",
     "wiredep": "^4.0.0",
     "typescript": "^2.7.2",
-    "gulp-typescript": "^4.0.1",
+    "gulp-typescript": "^4.0.1"
   },
   "eslintConfig": {
     "env": {
