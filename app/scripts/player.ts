@@ -1,9 +1,9 @@
 export class Player {
+    width:number = 30;
+    step:number = 15;
     pseudo:string = "player1";
     hp:number;
     score:number;
-    width:number = 30;
-    step:number = 15;
     coordonate:number = 385; // only x : (level width / 2) - (player width / 2)
     node: HTMLElement;
 

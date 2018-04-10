@@ -13,6 +13,10 @@ class GameController {
         this.setKeydowEvent(player, level);
     }
 
+    shoot(player:Player, level:Level) {
+        
+    }
+
     /**
      * Use KeydownEvent constructor to listen keydown event
      * @param player
@@ -31,7 +35,7 @@ class GameController {
                 player.move('right', level.width)
                 break;
               case "Space":
-                // Do something for "enter" or "return" key press.
+                this.shoot(player, level);
                 break;
               default:
                 return; // Quit when this doesn't handle the key event.
