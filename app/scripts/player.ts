@@ -1,5 +1,6 @@
 export class Player {
     width:number = 30;
+    height:number = 30;
     step:number = 15;
     pseudo:string = "player1";
     hp:number;
@@ -12,6 +13,7 @@ export class Player {
         this.node.id = 'player';
         this.node.className = 'player';
         this.node.style.width = this.width + 'px';
+        this.node.style.height = this.height + 'px';
     }
 
     /**

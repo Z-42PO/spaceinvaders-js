@@ -2,6 +2,7 @@
 
 import { Level } from './level';
 import { Player } from './player';
+import { Shot } from './shot';
 
 class GameController {
     constructor() {
@@ -13,13 +14,11 @@ class GameController {
         this.setKeydowEvent(player, level);
     }
 
-    shoot(player:Player, level:Level) {
-        
-    }
-
     /**
      * Use KeydownEvent constructor to listen keydown event
      * @param player
+     * @param level
+     * @param shot
      */
     setKeydowEvent(player:Player, level:Level) {
         window.addEventListener("keydown", (event) => {
@@ -34,8 +33,8 @@ class GameController {
               case "ArrowRight":
                 player.move('right', level.width)
                 break;
-              case "Space":
-                this.shoot(player, level);
+              case " ":
+                this.addShot(player, level)
                 break;
               default:
                 return; // Quit when this doesn't handle the key event.
@@ -45,9 +44,14 @@ class GameController {
             event.preventDefault();
         }, true);
     }
+
+    addShot(player:Player, level:Level) {
+        let shot = new Shot();
+        level.addElement(shot.node, player.coordonate + player.width / 2 - shot.width / 2, player.height + 5)
+    }
 }
 
-
-document.addEventListener('DOMContentLoaded', () => { // on document ready
+// on document ready
+document.addEventListener('DOMContentLoaded', () => {
     new GameController();
 })
