@@ -10,14 +10,14 @@ class GameController {
 
         // add Player inside Level
         level.addElement(player.node, player.coordonate);
-        this.setKeydowEvent(player);
+        this.setKeydowEvent(player, level);
     }
 
     /**
      * Use KeydownEvent constructor to listen keydown event
      * @param player
      */
-    setKeydowEvent(player:Player) {
+    setKeydowEvent(player:Player, level:Level) {
         window.addEventListener("keydown", (event) => {
             if (event.defaultPrevented) {
               return; // Should do nothing if the key event was already consumed.
@@ -25,10 +25,10 @@ class GameController {
 
             switch (event.key) {
               case "ArrowLeft":
-                player.move('left')
+                player.move('left', level.width)
                 break;
               case "ArrowRight":
-                player.move('right')
+                player.move('right', level.width)
                 break;
               case "Space":
                 // Do something for "enter" or "return" key press.
