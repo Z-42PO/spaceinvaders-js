@@ -34,7 +34,7 @@ class GameController {
                 player.move('right', level.width)
                 break;
               case " ":
-                this.addShot(player, level)
+                this.addShot(player, level, 'top')
                 break;
               default:
                 return; // Quit when this doesn't handle the key event.
@@ -45,9 +45,10 @@ class GameController {
         }, true);
     }
 
-    addShot(player:Player, level:Level) {
-        let shot = new Shot();
-        level.addElement(shot.node, player.coordonate + player.width / 2 - shot.width / 2, player.height + 5)
+    addShot(player:Player, level:Level, direction:string) {
+        let y = player.height + 5;
+        let shot = new Shot(direction, y);
+        level.addElement(shot.node, player.coordonate + player.width / 2 - shot.WIDTH / 2, y)
     }
 }
 
