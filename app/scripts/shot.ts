@@ -2,6 +2,7 @@ export class Shot {
     WIDTH:number = 4;
     HEIGHT:number = 15;
     TIMEOUT:number = 50;
+    
     x:number;
     y:number;
     direction:string;

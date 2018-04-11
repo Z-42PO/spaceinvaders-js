@@ -1,7 +1,8 @@
 export class Player {
-    width:number = 30;
-    height:number = 30;
-    step:number = 15;
+    WIDTH:number = 30;
+    HEIGHT:number = 30;
+    STEP:number = 15;
+    
     pseudo:string = "player1";
     hp:number;
     score:number;
@@ -12,8 +13,8 @@ export class Player {
         this.node = document.createElement('div');
         this.node.id = 'player';
         this.node.className = 'player';
-        this.node.style.width = this.width + 'px';
-        this.node.style.height = this.height + 'px';
+        this.node.style.width = this.WIDTH + 'px';
+        this.node.style.height = this.HEIGHT + 'px';
     }
 
     /**
@@ -22,11 +23,11 @@ export class Player {
      */
     move(direction:string, limit:number) {
         this.coordonate += direction == 'left'
-            ? this.coordonate - this.step > 0
-                ? -this.step
+            ? this.coordonate - this.STEP > 0
+                ? -this.STEP
                 : 0
-            : this.coordonate + this.width + this.step < limit
-                ? this.step
+            : this.coordonate + this.WIDTH + this.STEP < limit
+                ? this.STEP
                 : 0;
         this.node.style.left = this.coordonate + 'px';
     }

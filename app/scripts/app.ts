@@ -46,9 +46,9 @@ class GameController {
     }
 
     addShot(player:Player, level:Level, direction:string) {
-        let y = player.height + 5;
+        let y = player.HEIGHT + 5;
         let shot = new Shot(direction, y);
-        level.addElement(shot.node, player.coordonate + player.width / 2 - shot.WIDTH / 2, y)
+        level.addElement(shot.node, player.coordonate + player.WIDTH / 2 - shot.WIDTH / 2, y)
     }
 }
 
