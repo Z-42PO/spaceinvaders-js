@@ -2,6 +2,7 @@
 
 import { Level } from './level';
 import { Player } from './player';
+import { Alien } from './alien';
 import { Shot } from './shot';
 
 class GameController {
@@ -14,6 +15,8 @@ class GameController {
         // add Player inside Level
         level.addElement(player.node, player.coordonate);
         this.setKeydowEvent(player, level);
+
+        this.addAlien(level);
     }
 
     /**
@@ -70,6 +73,14 @@ class GameController {
             shot.move();
             shot.y < height - shot.STEP ? self.loopShot(shot, height) : shot.node.remove();
         }, this.TIMEOUT_SHOT)
+    }
+
+    /**
+     * add Alien inside Level
+     */
+    addAlien(level:Level) {
+        let alien = new Alien(385, 500);
+        level.addElement(alien.node, alien.x, alien.y);
     }
 }
 
