@@ -97,7 +97,7 @@ class GameController {
     }
 
     /**
-     * add Alien inside Level
+     * add one alien inside Level
      */
     addAlien(x: number, y: number) {
         let alien = new Alien(x, y);
