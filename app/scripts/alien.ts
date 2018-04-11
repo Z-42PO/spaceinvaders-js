@@ -11,9 +11,9 @@ export class Alien {
         this.x = x;
         this.y = y;
         this.node = document.createElement('div');
+        this.node.className = 'alien';
         this.node.style.width = this.WIDTH + 'px';
         this.node.style.height = this.HEIGHT + 'px';
-        this.node.style.backgroundColor = '#fff';
         this.node.style.position = 'absolute';
         this.node.style.left = x + 'px';
         this.node.style.bottom = y + 'px';

@@ -4,8 +4,14 @@
   position: relative;
 }
 
+.alien {
+  background-image: url('../alien.svg');
+  background-size: 30px 30px;
+}
+
 .player {
   position: absolute;
   bottom: 0;
-  background-color: white;
+  background-image: url('../player.svg');
+  background-size: 30px 30px;
 }
