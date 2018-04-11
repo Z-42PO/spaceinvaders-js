@@ -7,16 +7,16 @@ import { Shot } from './shot';
 
 class GameController {
     TIMEOUT_SHOT:number = 50; // timeout on loopshot
+    level:Level = new Level(1, 1);
+    player:Player = new Player();
 
     constructor() {
-        let level = new Level(1, 1);
-        let player = new Player();
-
         // add Player inside Level
-        level.addElement(player.node, player.coordonate);
-        this.setKeydowEvent(player, level);
+        this.level.addElement(this.player.node, this.player.x);
+        this.setKeydowEvent();
 
-        this.addAlien(level);
+        // add Alien
+        this.addAlien();
     }
 
     /**
@@ -24,7 +24,7 @@ class GameController {
      * @param player
      * @param level
      */
-    setKeydowEvent(player:Player, level:Level) {
+    setKeydowEvent() {
         window.addEventListener("keydown", (event) => {
             if (event.defaultPrevented) {
               return; // Should do nothing if the key event was already consumed.
@@ -32,13 +32,13 @@ class GameController {
 
             switch (event.key) {
               case "ArrowLeft":
-                player.move('left', level.width)
+              this.player.move('left', this.level.width)
                 break;
               case "ArrowRight":
-                player.move('right', level.width)
+              this.player.move('right', this.level.width)
                 break;
               case " ":
-                this.addShot(player, level, 'top')
+                this.addShot('top')
                 break;
               default:
                 return; // Quit when this doesn't handle the key event.
@@ -51,15 +51,13 @@ class GameController {
 
     /**
      * add a shot from player
-     * @param player
-     * @param level
      * @param direction
      */
-    addShot(player:Player, level:Level, direction:string) {
-        let y = player.HEIGHT + 5;
+    addShot(direction:string) {
+        let y = this.player.HEIGHT + 5;
         let shot = new Shot(direction, y);
-        level.addElement(shot.node, player.coordonate + player.WIDTH / 2 - shot.WIDTH / 2, y)
-        this.loopShot(shot, level.height);
+        this.level.addElement(shot.node, this.player.x + this.player.WIDTH / 2 - shot.WIDTH / 2, y)
+        this.loopShot(shot, this.level.height);
     }
 
     /**
@@ -78,9 +76,9 @@ class GameController {
     /**
      * add Alien inside Level
      */
-    addAlien(level:Level) {
+    addAlien() {
         let alien = new Alien(385, 500);
-        level.addElement(alien.node, alien.x, alien.y);
+        this.level.addElement(alien.node, alien.x, alien.y);
     }
 }
 

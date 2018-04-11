@@ -6,7 +6,7 @@ export class Player {
     pseudo:string = "player1";
     hp:number;
     score:number;
-    coordonate:number = 385; // only x : (level width / 2) - (player width / 2)
+    x:number = 385; // only x : (level width / 2) - (player width / 2)
     node: HTMLElement;
 
     constructor() {
@@ -22,13 +22,13 @@ export class Player {
      * @param direction left | right
      */
     move(direction:string, limit:number) {
-        this.coordonate += direction == 'left'
-            ? this.coordonate - this.STEP > 0
+        this.x += direction == 'left'
+            ? this.x - this.STEP > 0
                 ? -this.STEP
                 : 0
-            : this.coordonate + this.WIDTH + this.STEP < limit
+            : this.x + this.WIDTH + this.STEP < limit
                 ? this.STEP
                 : 0;
-        this.node.style.left = this.coordonate + 'px';
+        this.node.style.left = this.x + 'px';
     }
 }

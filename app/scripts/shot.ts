@@ -20,7 +20,7 @@ export class Shot {
     }
 
     move() {
-        this.y += this.STEP;
+        this.direction == 'top' ? this.y += this.STEP : this.y -= this.STEP;
         this.node.style.bottom = this.y + 'px';
     }
 }
