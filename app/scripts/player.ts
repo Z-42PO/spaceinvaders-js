@@ -2,7 +2,7 @@ export class Player {
     WIDTH:number = 30;
     HEIGHT:number = 30;
     STEP:number = 15;
-    
+
     pseudo:string = "player1";
     hp:number;
     score:number;
