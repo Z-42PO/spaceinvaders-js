@@ -1,5 +1,5 @@
 export class Alien {
-    WIDTH:number = 30;
+    WIDTH:number = 40;
     HEIGHT:number = 30;
     STEP:number = 15;
 
