@@ -9,6 +9,7 @@ class GameController {
     TIMEOUT_SHOT: number = 50; // timeout on loopshot
     level: Level = new Level(1, 1);
     player: Player = new Player();
+    aliens: Alien[] = new Array;
 
     constructor() {
         // add Player inside Level
@@ -50,13 +51,37 @@ class GameController {
     }
 
     /**
+     * check if a shot hit an alien
+     */
+    checkCollision(shot: Shot) {
+        let val = false;
+        for (const alien of this.aliens) {
+            let alienXmin = alien.x;
+            let alienXmax = alien.x + alien.WIDTH;
+            let shotXmin = shot.x;
+            let shotXmax = shot.x + shot.WIDTH;
+
+            let alienYmin = alien.y;
+            let alienYmax = alien.y + alien.HEIGHT;
+            let shotYmin = shot.y;
+            let shotYmax = shot.y + shot.HEIGHT;
+
+            shotXmax >= alienXmin && shotXmin <= alienXmax
+            && shotYmax > alienYmin && shotYmin <= alienYmax
+            ? val = true
+            : true;
+        }
+        return val;
+    }
+
+    /**
      * add a shot from player
      * @param direction
      */
     addShot(direction: string) {
         let y = this.player.HEIGHT + 5;
-        let shot = new Shot(direction, y);
-        this.level.addElement(shot.node, this.player.x + this.player.WIDTH / 2 - shot.WIDTH / 2, y);
+        let shot = new Shot(direction, this.player.x + this.player.WIDTH / 2, y);
+        this.level.addElement(shot.node, shot.x, y);
         this.loopShot(shot, this.level.height);
     }
 
@@ -69,7 +94,9 @@ class GameController {
         let self = this;
         setTimeout(function () {
             shot.move();
-            shot.y < height - shot.STEP ? self.loopShot(shot, height) : shot.node.remove();
+            (shot.y < height - shot.STEP) && self.checkCollision(shot) == false
+                ? self.loopShot(shot, height)
+                : shot.node.remove();
         }, this.TIMEOUT_SHOT);
     }
 
@@ -102,6 +129,7 @@ class GameController {
     addAlien(x: number, y: number) {
         let alien = new Alien(x, y);
         this.level.addElement(alien.node, alien.x, alien.y);
+        this.aliens.push(alien);
     }
 }
 

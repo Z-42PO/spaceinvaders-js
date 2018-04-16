@@ -8,8 +8,9 @@ export class Shot {
     direction:string;
     node:HTMLElement;
 
-    constructor(direction:string, y:number) {
+    constructor(direction:string, x:number, y:number) {
         this.direction = direction;
+        this.x = x - this.WIDTH / 2;
         this.y = y;
         this.node = document.createElement('div');
         this.node.style.width = this.WIDTH + 'px';
