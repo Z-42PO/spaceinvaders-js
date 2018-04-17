@@ -68,8 +68,12 @@ class GameController {
 
             shotXmax >= alienXmin && shotXmin <= alienXmax
             && shotYmax > alienYmin && shotYmin <= alienYmax
-            ? val = true
-            : true;
+            ? (
+                val = true,
+                alien.node.remove(), // remove alien from DOM
+                this.aliens.splice(this.aliens.indexOf(alien) , 1) // remove alien from array
+              )
+            : false;
         }
         return val;
     }
@@ -96,7 +100,7 @@ class GameController {
             shot.move();
             (shot.y < height - shot.STEP) && self.checkCollision(shot) == false
                 ? self.loopShot(shot, height)
-                : shot.node.remove();
+                : shot.node.remove(); // remove shot from DOM
         }, this.TIMEOUT_SHOT);
     }
 
