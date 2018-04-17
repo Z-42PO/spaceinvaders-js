@@ -1,7 +1,7 @@
 export class Alien {
     WIDTH:number = 40;
     HEIGHT:number = 30;
-    STEP:number = 15;
+    STEP:number = 10;
 
     x:number;
     y:number;
@@ -17,5 +17,15 @@ export class Alien {
         this.node.style.position = 'absolute';
         this.node.style.left = x + 'px';
         this.node.style.bottom = y + 'px';
+    }
+
+    move(direction: string) {
+        'right' == direction // yoda style
+            ? (this.x += this.STEP, this.node.style.left = this.x + 'px')
+            : 'left' == direction
+            ? (this.x -= this.STEP, this.node.style.left = this.x + 'px')
+            : 'bottom' == direction
+            ? (this.y -= this.STEP, this.node.style.bottom = this.y + 'px')
+            : true;
     }
 }

@@ -7,6 +7,7 @@ import { Shot } from './shot';
 
 class GameController {
     TIMEOUT_SHOT: number = 50; // timeout on loopshot
+    TIMEOUT_ALIEN: number = 500; // timeout on alien
     level: Level = new Level(1, 1);
     player: Player = new Player();
     aliens: Alien[] = new Array;
@@ -18,6 +19,7 @@ class GameController {
 
         // add all Aliens
         this.addAliens();
+        this.loopAlien();
     }
 
     /**
@@ -73,7 +75,7 @@ class GameController {
                 alien.node.remove(), // remove alien from DOM
                 this.aliens.splice(this.aliens.indexOf(alien) , 1) // remove alien from array
               )
-            : false;
+            : true;
         }
         return val;
     }
@@ -129,11 +131,27 @@ class GameController {
 
     /**
      * add one alien inside Level
+     * @param x
+     * @param y
      */
     addAlien(x: number, y: number) {
         let alien = new Alien(x, y);
         this.level.addElement(alien.node, alien.x, alien.y);
         this.aliens.push(alien);
+    }
+
+    /**
+     * move aliens
+     */
+    loopAlien() {
+        let self = this;
+        let direction = 'right';
+        setTimeout(function () {
+            for (const alien of self.aliens) {
+                alien.move(direction);
+            }
+            self.loopAlien();
+        }, this.TIMEOUT_ALIEN);
     }
 }
 
