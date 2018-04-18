@@ -26,6 +26,6 @@ export class Alien {
             ? (this.x -= this.STEP, this.node.style.left = this.x + 'px')
             : 'bottom' == direction
             ? (this.y -= this.STEP, this.node.style.bottom = this.y + 'px')
-            : true;
+        : true;
     }
 }

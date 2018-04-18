@@ -107,13 +107,13 @@ class GameController {
     }
 
     /**
-     * add all Aliens, omg !
+     * add all Aliens, omg we're doomed !
      */
     addAliens() {
         let i;
         let j = 0;
         let x;
-        let y = 600;
+        let y = this.level.height;
 
         while (j < 3) {
             i = 0;
@@ -142,33 +142,48 @@ class GameController {
 
     /**
      * move aliens
+     * @param d
      */
     loopAlien(d:string) {
         let self = this;
         let direction = d;
-        let last;
+        let lastDirection;
         setTimeout(function () {
+            // set the alien's movement to bottom
+            // if their next move would be an "outside level" one
             for (const alien of self.aliens) {
-                if ( ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width) ) {
-                    last = direction;
-                    direction = 'bottom';
-                } else if ( ('left' == direction) && (alien.x - alien.STEP < 0) ) {
-                    last = direction;
-                    direction = 'bottom';
-                }
+                ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width)
+                    ? (lastDirection = direction, direction = 'bottom')
+                    : ('left' == direction) && (alien.x - alien.STEP < 0)
+                    ? (lastDirection = direction, direction = 'bottom')
+                : true;
             }
 
+            // move aliens to 'direction'
             for (const alien of self.aliens) {
                 alien.move(direction);
             }
 
+            // set the next move after a bottom movement
+
             if ('bottom' == direction) {
-                if (last == 'right') {
+                for (const alien of self.aliens) {
+                    alien.STEP += 4;
+                }
+
+                if (lastDirection == 'right') {
                     direction = 'left';
                 } else {
                     direction = 'right';
                 }
             }
+
+
+            // 'bottom' == direction
+            //     ? 'right' == lastDirection
+            //         ? direction = 'left'
+            //         : direction = 'right'
+            //     : true;
 
             self.loopAlien(direction);
         }, this.TIMEOUT_ALIEN);
