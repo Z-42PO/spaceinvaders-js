@@ -7,7 +7,7 @@ import { Shot } from './shot';
 
 class GameController {
     TIMEOUT_SHOT: number = 50; // timeout on loopshot
-    TIMEOUT_ALIEN: number = 500; // timeout on alien
+    TIMEOUT_ALIEN: number = 250; // timeout on alien
     level: Level = new Level(1, 1);
     player: Player = new Player();
     aliens: Alien[] = new Array;
@@ -19,7 +19,7 @@ class GameController {
 
         // add all Aliens
         this.addAliens();
-        this.loopAlien();
+        this.loopAlien('right');
     }
 
     /**
@@ -143,14 +143,34 @@ class GameController {
     /**
      * move aliens
      */
-    loopAlien() {
+    loopAlien(d:string) {
         let self = this;
-        let direction = 'right';
+        let direction = d;
+        let last;
         setTimeout(function () {
+            for (const alien of self.aliens) {
+                if ( ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width) ) {
+                    last = direction;
+                    direction = 'bottom';
+                } else if ( ('left' == direction) && (alien.x - alien.STEP < 0) ) {
+                    last = direction;
+                    direction = 'bottom';
+                }
+            }
+
             for (const alien of self.aliens) {
                 alien.move(direction);
             }
-            self.loopAlien();
+
+            if ('bottom' == direction) {
+                if (last == 'right') {
+                    direction = 'left';
+                } else {
+                    direction = 'right';
+                }
+            }
+
+            self.loopAlien(direction);
         }, this.TIMEOUT_ALIEN);
     }
 }
