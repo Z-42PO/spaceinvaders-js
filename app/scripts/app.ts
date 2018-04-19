@@ -154,7 +154,6 @@ class GameController {
     loopAlien(d:string) {
         let self = this;
         let direction = d;
-        let lastDirection;
         setTimeout(function () {
             for (const alien of self.aliens) {
                 ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width) ||
