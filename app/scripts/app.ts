@@ -7,7 +7,7 @@ import { Shot } from './shot';
 
 class GameController {
     TIMEOUT_SHOT: number = 50; // timeout on loopshot
-    TIMEOUT_ALIEN: number = 250; // timeout on alien
+    TIMEOUT_ALIEN: number = 250; // timeout on alien 250
     level: Level = new Level(1, 1);
     player: Player = new Player();
     aliens: Alien[] = new Array;
@@ -140,52 +140,32 @@ class GameController {
         this.aliens.push(alien);
     }
 
+    moveAliens(direction:string) {
+        for (const alien of this.aliens) {
+            alien.move(direction);
+            'bottom' == direction ? alien.STEP += 2 : true
+        }
+    }
+
     /**
      * move aliens
-     * @param d
+     * @param d aliens's direction
      */
     loopAlien(d:string) {
         let self = this;
         let direction = d;
         let lastDirection;
         setTimeout(function () {
-            // set the alien's movement to bottom
-            // if their next move would be an "outside level" one
             for (const alien of self.aliens) {
-                ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width)
-                    ? (lastDirection = direction, direction = 'bottom')
-                    : ('left' == direction) && (alien.x - alien.STEP < 0)
-                    ? (lastDirection = direction, direction = 'bottom')
-                : true;
+                ('right' == direction) && (alien.x + alien.WIDTH + alien.STEP > self.level.width) ||
+                ('left' == direction) && (alien.x - alien.STEP < 0)
+                    ? (self.moveAliens('bottom'), direction == 'right')
+                        ? direction = 'left'
+                        : direction = 'right'
+                    : true
             }
-
-            // move aliens to 'direction'
-            for (const alien of self.aliens) {
-                alien.move(direction);
-            }
-
-            // set the next move after a bottom movement
-
-            if ('bottom' == direction) {
-                for (const alien of self.aliens) {
-                    alien.STEP += 4;
-                }
-
-                if (lastDirection == 'right') {
-                    direction = 'left';
-                } else {
-                    direction = 'right';
-                }
-            }
-
-
-            // 'bottom' == direction
-            //     ? 'right' == lastDirection
-            //         ? direction = 'left'
-            //         : direction = 'right'
-            //     : true;
-
             self.loopAlien(direction);
+            self.moveAliens(direction);
         }, this.TIMEOUT_ALIEN);
     }
 }
