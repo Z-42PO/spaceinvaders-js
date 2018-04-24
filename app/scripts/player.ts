@@ -7,6 +7,7 @@ export class Player {
     hp:number;
     score:number;
     x:number = 385; // only x : (level width / 2) - (player width / 2)
+    y: number = this.HEIGHT + 5;
     node: HTMLElement;
 
     constructor() {

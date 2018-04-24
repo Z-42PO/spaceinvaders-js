@@ -41,7 +41,7 @@ class GameController {
                     this.player.move('right', this.level.width);
                     break;
                 case " ":
-                    this.addShot('top');
+                    this.addShot('top', this.player.x + this.player.WIDTH / 2, this.player.y);
                     break;
                 default:
                     return; // Quit when this doesn't handle the key event.
@@ -53,27 +53,37 @@ class GameController {
     }
 
     /**
-     * check if a shot hit an alien
+     * check if a shot hit something
      */
     checkCollision(shot: Shot) {
         let val = false;
-        for (const alien of this.aliens) {
-            let alienXmin = alien.x;
-            let alienXmax = alien.x + alien.WIDTH;
-            let shotXmin = shot.x;
-            let shotXmax = shot.x + shot.WIDTH;
+        let shotXmin = shot.x;
+        let shotXmax = shot.x + shot.WIDTH;
+        let shotYmin = shot.y;
+        let shotYmax = shot.y + shot.HEIGHT;
 
-            let alienYmin = alien.y;
-            let alienYmax = alien.y + alien.HEIGHT;
-            let shotYmin = shot.y;
-            let shotYmax = shot.y + shot.HEIGHT;
+        if (shot.direction == 'top') {
+            for (const alien of this.aliens) {
+                let alienXmin = alien.x;
+                let alienXmax = alien.x + alien.WIDTH;
+                let alienYmin = alien.y;
+                let alienYmax = alien.y + alien.HEIGHT;
 
-            shotXmax >= alienXmin && shotXmin <= alienXmax
-            && shotYmax > alienYmin && shotYmin <= alienYmax
+                shotXmax >= alienXmin && shotXmin <= alienXmax &&
+                shotYmax > alienYmin && shotYmin <= alienYmax
+                ? (
+                    val = true,
+                    alien.node.remove(), // remove alien from DOM
+                    this.aliens.splice(this.aliens.indexOf(alien) , 1) // remove alien from array
+                    )
+                : true;
+            }
+        } else {
+            shotXmax >= this.player.x && shotXmin <= this.player.x + this.player.WIDTH &&
+            shotYmin <= this.player.y
             ? (
                 val = true,
-                alien.node.remove(), // remove alien from DOM
-                this.aliens.splice(this.aliens.indexOf(alien) , 1) // remove alien from array
+                alert('perdu')
               )
             : true;
         }
@@ -84,9 +94,8 @@ class GameController {
      * add a shot from player
      * @param direction
      */
-    addShot(direction: string) {
-        let y = this.player.HEIGHT + 5;
-        let shot = new Shot(direction, this.player.x + this.player.WIDTH / 2, y);
+    addShot(direction: string, x: number, y:number) {
+        let shot = new Shot(direction, x, y);
         this.level.addElement(shot.node, shot.x, y);
         this.loopShot(shot, this.level.height);
     }
@@ -100,7 +109,7 @@ class GameController {
         let self = this;
         setTimeout(function () {
             shot.move();
-            (shot.y < height - shot.STEP) && self.checkCollision(shot) == false
+            (shot.y < height - shot.STEP) && (shot.y > 0) && (self.checkCollision(shot) == false)
                 ? self.loopShot(shot, height)
                 : shot.node.remove(); // remove shot from DOM
         }, this.TIMEOUT_SHOT);
@@ -140,6 +149,10 @@ class GameController {
         this.aliens.push(alien);
     }
 
+    /**
+     * move all aliens
+     * @param direction
+     */
     moveAliens(direction:string) {
         for (const alien of this.aliens) {
             alien.move(direction);
@@ -165,7 +178,13 @@ class GameController {
             }
             self.loopAlien(direction);
             self.moveAliens(direction);
+            Math.floor(Math.random() * 2) ? self.shotAlien() : true;
         }, this.TIMEOUT_ALIEN);
+    }
+
+    shotAlien() {
+        let currentIndex = Math.floor(Math.random() * this.aliens.length);
+        this.addShot('bottom', this.aliens[currentIndex].x + this.aliens[currentIndex].WIDTH / 2, this.aliens[currentIndex].y);
     }
 }
 
