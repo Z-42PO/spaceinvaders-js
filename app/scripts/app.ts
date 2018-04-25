@@ -83,7 +83,7 @@ class GameController {
             shotYmin <= this.player.y
             ? (
                 val = true,
-                alert('perdu')
+                this.gameOver()
               )
             : true;
         }
@@ -116,6 +116,17 @@ class GameController {
     }
 
     /**
+     * add one alien inside Level
+     * @param x
+     * @param y
+     */
+    addAlien(x: number, y: number) {
+        let alien = new Alien(x, y);
+        this.level.addElement(alien.node, alien.x, alien.y);
+        this.aliens.push(alien);
+    }
+
+    /**
      * add all Aliens, omg we're doomed !
      */
     addAliens() {
@@ -139,17 +150,6 @@ class GameController {
     }
 
     /**
-     * add one alien inside Level
-     * @param x
-     * @param y
-     */
-    addAlien(x: number, y: number) {
-        let alien = new Alien(x, y);
-        this.level.addElement(alien.node, alien.x, alien.y);
-        this.aliens.push(alien);
-    }
-
-    /**
      * move all aliens
      * @param direction
      */
@@ -157,6 +157,7 @@ class GameController {
         for (const alien of this.aliens) {
             alien.move(direction);
             'bottom' == direction ? alien.STEP += 2 : true
+            alien.y < 0 ? this.gameOver() : true
         }
     }
 
@@ -165,6 +166,7 @@ class GameController {
      * @param d aliens's direction
      */
     loopAlien(d:string) {
+        this.aliens.length == 0 ? this.gameWin() : true;
         let self = this;
         let direction = d;
         setTimeout(function () {
@@ -182,9 +184,25 @@ class GameController {
         }, this.TIMEOUT_ALIEN);
     }
 
+    /**
+     * make aliens shooting
+     */
     shotAlien() {
         let currentIndex = Math.floor(Math.random() * this.aliens.length);
         this.addShot('bottom', this.aliens[currentIndex].x + this.aliens[currentIndex].WIDTH / 2, this.aliens[currentIndex].y);
+    }
+
+    /**
+     * executed when game is lost
+     */
+    gameOver() {
+        alert('Perdu');
+        location.reload();
+    }
+
+    gameWin() {
+        alert('Gagné !');
+        location.reload();
     }
 }
 
